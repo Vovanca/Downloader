@@ -5,25 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Мой Архив APK</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #1a1a1a; color: #eee; display: flex; flex-direction: column; align-items: center; padding: 20px; }
-        .card { background: #2c2c2c; border-radius: 12px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); text-align: center; width: 100%; max-width: 350px; }
-        h1 { color: #00b4d8; }
-        .btn { display: block; background: #0077b6; color: white; text-decoration: none; padding: 12px; border-radius: 8px; margin-top: 20px; font-weight: bold; transition: 0.3s; }
-        .btn:hover { background: #00b4d8; }
-        .info { font-size: 0.9em; color: #888; margin-top: 10px; }
+        body { font-family: sans-serif; background: #121212; color: white; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        #app-list { display: grid; gap: 20px; width: 100%; max-width: 400px; }
+        .card { background: #1e1e1e; padding: 20px; border-radius: 12px; border: 1px solid #333; text-align: center; }
+        .btn { display: block; background: #007bff; color: white; text-decoration: none; padding: 10px; border-radius: 6px; margin-top: 15px; font-weight: bold; }
+        .btn:hover { background: #0056b3; }
     </style>
 </head>
 <body>
+    <h1>Мои APK</h1>
+    <div id="app-list"><!-- Сюда JS добавит приложения --></div>
 
-    <h1>Мои Приложения</h1>
-
-    <div class="card">
-        <h3>Space Drift (RU)</h3>
-        <p class="info">Версия: 1.0 (50 МБ)</p>
-        <!-- ЗАМЕНИ ССЫЛКУ НИЖЕ НА СВОЮ ИЗ RELEASES -->
-        <a href="https://github.com/Vovanca/Downloader/releases/download/1.0/spacedrift-rus.apk" class="btn">Скачать APK</a>
-    </div>
-
+    <script>
+        fetch('apps.json')
+            .then(res => res.json())
+            .then(apps => {
+                const list = document.getElementById('app-list');
+                apps.forEach(app => {
+                    list.innerHTML += `
+                        <div class="card">
+                            <h3>${app.title}</h3>
+                            <p style="color: #888;">Версия: ${app.version}</p>
+                            <a href="${app.url}" class="btn" download>Скачать APK</a>
+                        </div>
+                    `;
+                });
+            });
+    </script>
 </body>
 </html>
-
